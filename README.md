@@ -1,28 +1,16 @@
-# Dice Game
+# Frontend Labs
 
-A simple two-player dice game built using HTML, CSS, and JavaScript. Every time the page is refreshed, both players roll a random dice. The game compares the results and displays the winner, or a draw if both players roll the same number.
+This repository contains the frontend projects I build while learning web development. Each project focuses on practicing a concept, trying out new ideas, or improving my understanding of HTML, CSS, JavaScript, and React.
 
-## Tech Stack
+## Projects
 
-* HTML
-* CSS
-* JavaScript
+- 01 - Dice Game
 
-## What this project covers
+More projects will be added over time.
 
-* Generating random numbers with `Math.random()`
-* Manipulating the DOM
-* Updating image attributes dynamically
-* Using functions to avoid repetitive code
-* Basic conditional logic
+## Tech
 
-## How to run
-
-Download or clone the project and open `index.html` in your browser.
-
-## Future improvements
-
-* Add a **Roll Dice** button instead of refreshing the page.
-* Keep track of scores across multiple rounds.
-* Add dice rolling animations.
-* Improve the UI for mobile devices.
+- HTML
+- CSS
+- JavaScript
+- React
