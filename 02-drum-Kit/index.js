@@ -7,15 +7,10 @@ const j_drum_btn=document.querySelector('.j.drum');
 const k_drum_btn=document.querySelector('.k.drum');
 const l_drum_btn=document.querySelector('.l.drum');
 
-// w_drum_btn.addEventListener('click',()=>{
-//     const w_drum_note= new Audio('sounds/tom-1-w.mp3');
-//     w_drum_note.play();
-
-// });
-
 function playAudio(btn){
     const audio= new Audio(`sounds/${btn}.mp3`);
     audio.play();
+    buttonAnimation(btn);
 }
 
 w_drum_btn.addEventListener("click",()=>playAudio("w"));
@@ -26,16 +21,27 @@ j_drum_btn.addEventListener("click",()=>playAudio("j"));
 k_drum_btn.addEventListener("click",()=>playAudio("k"));
 l_drum_btn.addEventListener("click",()=>playAudio("l"));
 
+const validKeys=['w','a','s','d','j','k','l'];
+
 window.addEventListener("keydown",(event)=>{
 
     let key = event.key.toLowerCase();
 
-    let validKeys=['w','a','s','d','j','k','l'];
-
+    
     if(validKeys.includes(key)){
         playAudio(key);
     }
 }
 )
 
-function buttonAnimation(key)
+function buttonAnimation(key) {
+
+    const activeButton = document.querySelector("." + key);
+
+    activeButton.classList.add("pressed");
+
+    setTimeout(function () {
+        activeButton.classList.remove("pressed");
+    }, 100);
+
+}
