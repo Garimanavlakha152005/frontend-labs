@@ -34,3 +34,14 @@ window.addEventListener("keydown",(event)=>{
 }
 )
 
+function buttonAnimation(key) {
+
+    const activeButton = document.querySelector("." + key);
+
+    activeButton.classList.add("pressed");
+
+    setTimeout(function () {
+        activeButton.classList.remove("pressed");
+    }, 100);
+
+}
