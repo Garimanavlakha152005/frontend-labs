@@ -1,143 +1,120 @@
-let levelTitle=document.querySelector("#level-title");
+let levelTitle = document.querySelector("#level-title");
 
-//Blocks
-let redBlock=document.querySelector("#red");
-let greenBlock=document.querySelector("#green");
-let yellowBlock=document.querySelector("#yellow");
-let blueBlock=document.querySelector("#blue");
+let gamePattern = [];
+let userPattern = [];
 
+let level = 0;
+let gameStarted = false;
 
-//Start the Game
-let isGameStarted=false;
-let userResponse=false;
-let endUserGame=false;
+const buttonColors = ["green", "red", "yellow", "blue"];
 
-window.addEventListener("keydown",()=>{
-    
-    if(!isGameStarted){
-        
-        levelTitle.innerHTML="Level 1";
-        isGameStarted=true;
-        
-        while(endUserGame!=true){
-            generateSequence();
-            userFollowSequence();
-            
-        }
+// Start the game
+window.addEventListener("keydown", function () {
+
+    if (!gameStarted) {
+        gameStarted = true;
+        level = 0;
+        gamePattern = [];
+        nextSequence();
     }
-    
-})
 
-let originalSeq=[];
+});
 
-//flash colors
+// Generate next sequence
+function nextSequence() {
+
+    userPattern = [];
+    level++;
+
+    levelTitle.innerHTML = "Level " + level;
+
+    let randomNumber = Math.floor(Math.random() * 4);
+    let randomColor = buttonColors[randomNumber];
+
+    gamePattern.push(randomColor);
+
+    flashButton(randomColor);
+}
+
+// Play sound
+function playSound(name) {
+
+    let audio = new Audio("sounds/" + name + ".mp3");
+    audio.play();
+
+}
+
+// Flash animation
 function flashButton(color) {
-    
-    const button = document.querySelector("." + color);
+
+    const button = document.getElementById(color);
+
+    playSound(color);
 
     button.classList.add("flash");
 
     setTimeout(function () {
         button.classList.remove("flash");
-    }, 100);
+    }, 150);
+
 }
 
+// Button click
+document.querySelectorAll(".btn").forEach(function (button) {
 
-//choose color
-function generateSequence(){
-let randomColor=Math.floor(Math.random()*4)+1;
+    button.addEventListener("click", function () {
 
-//green ==0, red==1 ,blue==2, yellow==3
-switch(randomColor){
-case 1:
-    originalSeq.push("green");
-    flashButton("green");
-    break;
+        if (!gameStarted) return;
 
-case 2:
-    originalSeq.push("red");
-    flashButton("red");
-    break;
+        let userChosenColor = this.id;
 
-case 3:
-    originalSeq.push("blue");
-    flashButton("blue");
-    break;
+        userPattern.push(userChosenColor);
 
-case 4:
-    originalSeq.push("yellow");
-    flashButton("yellow");
-    break;
+        flashButton(userChosenColor);
+
+        checkAnswer(userPattern.length - 1);
+
+    });
+
+});
+
+// Check user's answer
+function checkAnswer(currentIndex) {
+
+    if (userPattern[currentIndex] === gamePattern[currentIndex]) {
+
+        if (userPattern.length === gamePattern.length) {
+
+            setTimeout(function () {
+                nextSequence();
+            }, 1000);
+
+        }
+
+    } else {
+
+        endGame();
+
+    }
+
 }
 
-userResponse=true;
-}
+// Game Over
+function endGame() {
 
-//user presses block
+    playSound("wrong");
 
-
-redBlock.addEventListener("click",(event)=>{
-
-    if(event.target==key){
-
-        flashButton("red");
-    }
-    else{
-        endGame();
-    }
-
-})
-
-greenBlock.addEventListener("click",(event)=>{
-    if(event.target==key){
-
-        flashButton("green");
-    }
-    else{
-        endGame();
-    }
-})
-
-yellowBlock.add("click",(event)=>{
-    if(event.target==key){
-        
-        flashButton("yellow");
-    }
-    else{
-        endGame();
-    }
-})
-
-blueBlock.addEventListener("click",()=>{
-
-    if(event.target==key){
-        
-        flashButton("blue");
-    }
-    else{
-        endGame();
-    }
-})
-
-function userFollowSequence(){
-    
-    for(let i=0;i<originalSeq.length;i++){
-
-        let key=originalSeq[i];
-
-    }
-}
-
-function endGame(){
-  const endButton = document.querySelector("." + color);
-
-    endButton.classList.add("game-over");
-    levelTitle.innerHTML="Game Over, Press any key to restart !!";
+    document.body.classList.add("game-over");
 
     setTimeout(function () {
-        endButton.classList.remove("game-over");
-    }, 100); 
-    endUserGame=true;  
+        document.body.classList.remove("game-over");
+    }, 200);
+
+    levelTitle.innerHTML = "Game Over! Press Any Key to Restart";
+
+    gameStarted = false;
+    gamePattern = [];
+    userPattern = [];
+    level = 0;
+
 }
-
-
